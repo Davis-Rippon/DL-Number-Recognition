@@ -1,5 +1,4 @@
 #include "functions.h"
-#include <algorithm>
 #include <iostream>
 
 float ReLU(float x) {
