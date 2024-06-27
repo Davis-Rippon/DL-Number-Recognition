@@ -1,11 +1,21 @@
-output: main.o functions.o
-	g++ main.o functions.o -o output
+GPP = g++
+FLAGS = -g -Wall
+SRC = src
+OBJ = obj
 
-main.o: main.cpp
-	g++ -c main.cpp
+SRCS = $(wildcard $(SRC)/*.cpp)
+OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
 
-functions.o: functions.cpp functions.h
-	g++ -c functions.cpp
+BINDIR = bin
+BIN = bin/main
+
+all:$(BIN)
+
+$(BIN): $(OBJS)
+	$(GPP) $(FLAGS) $(OBJS) -o $@
+
+$(OBJ)/%.o: $(SRC)/%.cpp
+	$(GPP) $(FLAGS) -c $< -o $@
 
 clean:
-	rm *.o output
+	$(RM) -r $(BINDIR)/* $(OBJ)/*
