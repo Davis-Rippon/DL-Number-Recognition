@@ -1,5 +1,5 @@
 GPP = g++
-FLAGS = -g -Wall
+FLAGS = -g -Wall 
 SRC = src
 OBJ = obj
 
