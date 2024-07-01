@@ -1,10 +1,14 @@
 #include "functions.h"
 #include <iostream>
+#include <iomanip>
 
-int main () {
-	std::cout << ReLU(1.1) << "\n";
-	std::cout << ReLU(-1.0) << "\n";
-	std::cout << ReLU(1.9) << "\n";
+int main() {
+	int val = (int) 0x12345678;
+
+	int reverse = swap_endianness(val);
+
+	std::cout << std::hex << reverse << std::endl;
+	std::cout << std::hex << val << std::endl;
 
 	return 0;
 }
