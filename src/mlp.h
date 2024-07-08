@@ -1,6 +1,6 @@
 #include <eigen3/Eigen/Dense>
 
-class MLP {
+class NetworkMLP {
 	public:
 		int forward_pass(Eigen::MatrixXd input);
 		void back_prop(Eigen::MatrixXd input, Eigen::MatrixXd expectedOutput);
