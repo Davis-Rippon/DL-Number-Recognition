@@ -1,4 +1,5 @@
 #include "functions.h"
+#include <fstream>
 #include <iostream>
 
 uint32_t swap_endianness(uint32_t input) {
@@ -6,4 +7,31 @@ uint32_t swap_endianness(uint32_t input) {
 			(input >> 8 & 0xff00) |
 			(input << 8 & 0xff0000) | 
 			input << 24);
+}
+
+
+std::vector<Eigen::VectorXd> read_images(std::string path, int numImages) {
+	std::ifstream file(path);
+	std::vector<Eigen::VectorXd> output(numImages);
+
+	if (file.is_open()) {
+		/* Start by skipping first 12 bytes of the file since we know the numnber of images, etc. */
+		file.ignore(12);
+
+		for (int i = 0; i < numImages; i++) {
+			Eigen::VectorXd image(784);
+
+			for (int j = 0; j < 784; j++) {
+				char ch;
+ 				file.read(&ch, 1);
+				/*int num = int(uint8_t(ch));*/
+				image[j] = ch;
+			}
+			output[i] = image;
+		}
+
+	} else {
+		throw std::runtime_error("Could not open MNIST database");
+	}
+	return output;
 }
