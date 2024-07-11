@@ -10,21 +10,21 @@ uint32_t swap_endianness(uint32_t input) {
 }
 
 
-std::vector<Eigen::VectorXd> read_images(std::string path, int numImages) {
+std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numImages) {
 	std::ifstream file(path);
-	std::vector<Eigen::VectorXd> output(numImages);
+	std::vector<Eigen::Vector<uint8_t, 784>> output(numImages);
 
 	if (file.is_open()) {
 		/* Start by skipping first 12 bytes of the file since we know the numnber of images, etc. */
 		file.ignore(16);
 
 		for (int i = 0; i < numImages; i++) {
-			Eigen::VectorXd image(784);
+			Eigen::Vector<uint8_t, 784> image;
 
 			for (int j = 0; j < 784; j++) {
 				char ch;
  				file.read(&ch, 1);
-				image[j] = ch;
+				image[j] = (uint8_t) ch;
 			}
 			output[i] = image;
 		}
@@ -49,7 +49,6 @@ std::vector<int> read_labels(std::string path, int numLabels) {
 			output[i] = ch;
 
 			int num = int(uint8_t(ch));
-			std::cout << num << std::endl;
 		}
 
 	} else {
