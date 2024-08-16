@@ -47,8 +47,6 @@ std::vector<int> read_labels(std::string path, int numLabels) {
 			char ch;
 			file.read(&ch, 1);
 			output[i] = ch;
-
-			int num = int(uint8_t(ch));
 		}
 
 	} else {

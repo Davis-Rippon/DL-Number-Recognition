@@ -18,9 +18,11 @@ void NetworkMLP::back_prop(std::vector<Eigen::Vector<uint8_t,784>> input, std::v
 
 
 int NetworkMLP::forward_pass(Eigen::Vector<uint8_t, 784> image) {
+	/*Does one forward pass on network, returning the expected image*/
 	return 0;
 }
 
 float test_accuracy(std::vector<Eigen::Vector<uint8_t, 784>> input, std::vector<int> expectedOutput) {
+	/*Tests the accuracy of the model using the test labels*/
 	return 1.0;
 }
