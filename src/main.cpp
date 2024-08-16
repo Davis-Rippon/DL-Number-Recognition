@@ -16,9 +16,7 @@ int main() {
 	std::cout << " Done \nInitialising Network...";
 	NetworkMLP networkMLP = NetworkMLP();
 
-	std::cout << " Done \n Back Propagation" << std::endl;
-
-	networkMLP.back_prop(images, labels);
+	std::cout << " Done \nBack Propagation" << std::endl;
 
 	return 0;
 }
