@@ -9,10 +9,15 @@ uint32_t swap_endianness(uint32_t input) {
 			input << 24);
 }
 
+float fast_sigmoid(float x) {
+	return 1/(1 + abs(x));
+}
 
 std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numImages) {
 	std::ifstream file(path);
 	std::vector<Eigen::Vector<uint8_t, 784>> output(numImages);
+
+	/*char * progressBar = "[--------------------]";*/
 
 	if (file.is_open()) {
 		/* Start by skipping first 12 bytes of the file since we know the numnber of images, etc. */
@@ -20,6 +25,8 @@ std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numIm
 
 		for (int i = 0; i < numImages; i++) {
 			Eigen::Vector<uint8_t, 784> image;
+
+			/*progressBar[i/40 + 1] = '#';*/
 
 			for (int j = 0; j < 784; j++) {
 				char ch;
