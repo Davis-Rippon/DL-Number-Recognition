@@ -13,20 +13,45 @@ float fast_sigmoid(float x) {
 	return 1/(1 + abs(x));
 }
 
+void show_progress(int current, int max, int barLen=40) {
+	std::cout << '\r';
+	std::cout << '[';
+
+	if (current == 0) {
+		for (int i = 0; i < barLen; ++i) {
+			std::cout << '-';
+		}
+
+	} else {
+
+		float progIdx = current / (max/barLen);
+
+		for (int i = 0; i < progIdx; ++i) {
+			std::cout << '#';
+		}
+
+		for (int i = progIdx + 1; i < barLen - 1; ++i) {
+			std::cout << '-';
+		}
+
+	}
+
+	std::cout << "] " << std::flush;
+	std::cout << (current + 1);
+}
+
 std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numImages) {
 	std::ifstream file(path);
 	std::vector<Eigen::Vector<uint8_t, 784>> output(numImages);
-
-	/*char * progressBar = "[--------------------]";*/
 
 	if (file.is_open()) {
 		/* Start by skipping first 12 bytes of the file since we know the numnber of images, etc. */
 		file.ignore(16);
 
 		for (int i = 0; i < numImages; i++) {
-			Eigen::Vector<uint8_t, 784> image;
+			show_progress(i, 60000,	50);
 
-			/*progressBar[i/40 + 1] = '#';*/
+			Eigen::Vector<uint8_t, 784> image;
 
 			for (int j = 0; j < 784; j++) {
 				char ch;
@@ -34,11 +59,13 @@ std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numIm
 				image[j] = (uint8_t) ch;
 			}
 			output[i] = image;
+
 		}
 
 	} else {
 		throw std::runtime_error("Could not open MNIST database");
 	}
+
 	return output;
 }
 
@@ -51,6 +78,7 @@ std::vector<int> read_labels(std::string path, int numLabels) {
 		file.ignore(8);
 
 		for (int i = 0; i < numLabels; i++) {
+			show_progress(i, numLabels);
 			char ch;
 			file.read(&ch, 1);
 			output[i] = ch;
