@@ -3,16 +3,17 @@
 class NetworkMLP {
 	public:
 		NetworkMLP();
-		int forward_pass(Eigen::Vector<uint8_t, 784> image);
-		void back_prop(std::vector<Eigen::Vector<uint8_t, 784>> input, std::vector<int> expectedOutput, float learningRate, int tolerance);
-		uint8_t test_accuracy(std::vector<Eigen::Vector<uint8_t, 784>> input, std::vector<int> expectedOutput);
+		Eigen::Vector<float, 10> forward_pass(Eigen::Vector<float, 784> input);
+		void back_prop(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput, float learningRate, int tolerance, int epochs=3);
+		uint8_t test_accuracy(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput);
 	private:
-		Eigen::Vector<uint8_t, 12544> weightsL1;
-		Eigen::Vector<uint8_t, 16> biasesL1;
+		float loss_function(Eigen::Vector<float, 10> output, int expected);
+		Eigen::Vector<float, 12544> weightsL1;
+		Eigen::Vector<float, 16> biasesL1;
 		
-		Eigen::Vector<uint8_t, 256> weightsL2;
-		Eigen::Vector<uint8_t, 16> biasesL2;
+		Eigen::Vector<float, 256> weightsL2;
+		Eigen::Vector<float, 16> biasesL2;
 		
-		Eigen::Vector<uint8_t, 160> weightsL3;
-		Eigen::Vector<uint8_t, 10> biasesL3;
+		Eigen::Vector<float, 160> weightsL3;
+		Eigen::Vector<float, 10> biasesL3;
 };

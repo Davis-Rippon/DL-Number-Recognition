@@ -1,6 +1,8 @@
 #include "functions.h"
 #include <fstream>
 #include <iostream>
+#include <iomanip>
+#include <cmath>
 
 uint32_t swap_endianness(uint32_t input) {
 	return (input >> 24 |
@@ -11,6 +13,15 @@ uint32_t swap_endianness(uint32_t input) {
 
 float fast_sigmoid(float x) {
 	return 1/(1 + abs(x));
+}
+
+float sigmoid(float x) {
+	if (x < -20) std::cout << "Overflow: " << x << std::endl;
+    return 1.0f / (1.0f + std::exp(-x));
+}
+
+float tanh_squish(float x) {
+	return std::tanh(x);
 }
 
 void show_progress(int current, int max, int barLen=40) {
@@ -40,23 +51,23 @@ void show_progress(int current, int max, int barLen=40) {
 	std::cout << (current + 1);
 }
 
-std::vector<Eigen::Vector<uint8_t, 784>> read_images(std::string path, int numImages) {
+std::vector<Eigen::Vector<float, 784>> read_images(std::string path, int numImages) {
 	std::ifstream file(path);
-	std::vector<Eigen::Vector<uint8_t, 784>> output(numImages);
+	std::vector<Eigen::Vector<float, 784>> output(numImages);
 
 	if (file.is_open()) {
 		/* Start by skipping first 12 bytes of the file since we know the numnber of images, etc. */
 		file.ignore(16);
 
 		for (int i = 0; i < numImages; i++) {
-			show_progress(i, 60000,	50);
+			/*show_progress(i, 60000,	50);*/
 
-			Eigen::Vector<uint8_t, 784> image;
+			Eigen::Vector<float, 784> image;
 
 			for (int j = 0; j < 784; j++) {
 				char ch;
  				file.read(&ch, 1);
-				image[j] = (uint8_t) ch;
+				image[j] = fast_sigmoid((float) ch);
 			}
 			output[i] = image;
 
@@ -78,7 +89,7 @@ std::vector<int> read_labels(std::string path, int numLabels) {
 		file.ignore(8);
 
 		for (int i = 0; i < numLabels; i++) {
-			show_progress(i, numLabels);
+			/*show_progress(i, numLabels);*/
 			char ch;
 			file.read(&ch, 1);
 			output[i] = ch;
@@ -89,3 +100,14 @@ std::vector<int> read_labels(std::string path, int numLabels) {
 	}
 	return output;
 }
+
+
+void show_number(std::vector<Eigen::Vector<float, 784>> images, int index) {
+	for (int j = 0; j < 28; ++j) {
+		for (int i = 0; i < 28; ++i) {
+			std::cout << std::setw(2) << (int)images[index][28 * j + i];
+		}
+		std::cout << std::endl;
+	}
+}
+
