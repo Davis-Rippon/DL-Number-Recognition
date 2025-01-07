@@ -24,6 +24,11 @@ float tanh_squish(float x) {
 	return std::tanh(x);
 }
 
+float tanh_derivative(float x) {
+	float tanh_x = std::tanh(x);
+	return 1 - tanh_x *	tanh_x;
+}
+
 void show_progress(int current, int max, int barLen=40) {
 	std::cout << '\r';
 	std::cout << '[';

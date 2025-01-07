@@ -36,14 +36,63 @@ void NetworkMLP::back_prop(
 		float total_loss = 0;
 
 		for (int i = 0; i < nInputs; ++i) {
-			Eigen::Vector<float, 10> out = forward_pass(input[i]);
-			float loss = loss_function(out, expectedOutput[i]);
+			std::vector<Eigen::Vector<float, 10>> layers = forward_pass(input[i]);
+
+			float loss = loss_function(layers[2], expectedOutput[i]);
 			total_loss += loss;
+
+			/* Output Error */
+			Eigen::Vector<float, 10> D1;
+
+			for (int j = 0; j < 10; ++j) {
+				int exp = (j == expectedOutput[i]) ? 1 : 0;
+				D1[j] = layers[2][j] - exp;
+			}
+
+			/* Hidden Layer 2 error */
+			Eigen::Vector<float, 16> D2;
+			for (int j = 0; j < 16; ++j) {
+				float error = 0;
+				for (int k = 0; k < 10; ++k) {
+					error += weightsL2[k]*D1[k];
+				}
+				D2[j] = error*tanh_derivative(layers[1][j]);
+			}
+
+
+			/* Hidden Layer 1 error */
+			Eigen::Vector<float, 784> D3;
+			for (int j = 0; j < 784; ++j) {
+				float error = 0;
+				for (int k = 0; k < 10; ++k) {
+					error += weightsL1[k]*D2[k];
+				}
+				D3[j] = error*tanh_derivative(layers[0][j]);
+			}
+
+			/* Gradient Vector for Layer 2 */
+			Eigen::Vector<float, 160> weightGradL2;
+			for (int j = 0; j < 10; ++j) {
+				for (int k = 0; k < 16; ++k) {
+					weightGradL2[j*784 + k] = D1[j] * layers[1][k];
+				}
+			}
+
+
+			/* Gradient Vector for Layer 1 */
+			Eigen::Vector<float, 12544> weightGradL1;
+			for (int j = 0; j < 16; ++j) {
+				for (int k = 0; k < 784; ++k) {
+					weightGradL1[j*784 + k] = D2[j] * input[i][k];
+				}
+			}
+
+
 		}
 	}
 }
 
-Eigen::Vector<float, 10> NetworkMLP::forward_pass(Eigen::Vector<float, 784> image) {
+std::vector<Eigen::Vector<float, 10>> NetworkMLP::forward_pass(Eigen::Vector<float, 784> image) {
 
 	/*Does one forward pass on network, returning output layer*/
 	Eigen::Vector<float, 16> Z1;
@@ -53,6 +102,7 @@ Eigen::Vector<float, 10> NetworkMLP::forward_pass(Eigen::Vector<float, 784> imag
 		for (int j = 0; j < 784; ++j) {
 			sum += ((unsigned int) image[j])*weightsL1[j + i*784];
 		}
+		sum += biasesL1[i];
 		float value = tanh_squish(sum);
 		Z1[i] = value;
 	}
@@ -83,7 +133,7 @@ Eigen::Vector<float, 10> NetworkMLP::forward_pass(Eigen::Vector<float, 784> imag
 	/*	std::cout << Z3[i] << " " << Z2[i] << " " << Z1[i] << " " << std::endl;*/
 	/*}*/
 
-	return Z3;
+	return	{Z1, Z2, Z3};
 }
 
 float test_accuracy(std::vector<Eigen::Vector<uint8_t, 784>> input, std::vector<int> expectedOutput) {

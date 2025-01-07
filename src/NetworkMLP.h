@@ -3,7 +3,7 @@
 class NetworkMLP {
 	public:
 		NetworkMLP();
-		Eigen::Vector<float, 10> forward_pass(Eigen::Vector<float, 784> input);
+		std::vector<Eigen::Vector<float, 10>> forward_pass(Eigen::Vector<float, 784> input);
 		void back_prop(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput, float learningRate, int tolerance, int epochs=3);
 		uint8_t test_accuracy(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput);
 	private:

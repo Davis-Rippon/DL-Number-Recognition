@@ -22,7 +22,7 @@ int main() {
 	std::cout << "\nForward Pass..." << std::endl;
 	for (int i = 0; i < 10; ++i) {
 		show_number(images, i);
-		std::cout << networkMLP.forward_pass(images[i + 5000]) << std::endl;
+		std::cout << networkMLP.forward_pass(images[i + 5000])[2] << std::endl;
 		std::cout << "Break." << std::endl;
 	}
 
