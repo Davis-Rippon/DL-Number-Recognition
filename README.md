@@ -7,6 +7,20 @@ I set out to make a replica of the MLP described in 3Blue1Brown's lectures with 
 Originally, I thought I would have to use Eigen for matrix operations (in the interest of time), but I abandoned that idea. 
 The usage of Eigen in this project is redundant (except for the random initial values in NetworkMLP's constructor).
 
+## Build Instructions
+Download:
+
+```bash
+git clone git@github.com:Davis-Rippon/DL-Number-Recognition.git
+```
+
+Build:
+```bash
+cd DL-Number-Recognition
+make
+```
+
+
 ## Future Goals (TODOs)
 1. Make it quicker (parallelism, better activation function)
 2. Make it flexible (change # of nodes, layers, etc.)
