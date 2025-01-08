@@ -1,9 +1,20 @@
 # DL-Number-Recognition
-This is my attempt at implementing a Deep Learning model from scratch. 
+A Multi-Layer Perceptron project written in c++ without any AI/ML libraries!
 
-## Rationale
-This is a learning project, where I'm going to try make everything based off of 3blue1brown's Deep Learning lectures:
+## The Goal
+I set out to make a replica of the MLP described in 3Blue1Brown's lectures with primarily just the C++ Standard Library. 
+
+Originally, I thought I would have to use Eigen for matrix operations (in the interest of time), but I abandoned that idea. 
+The usage of Eigen in this project is redundant (except for the random initial values in NetworkMLP's constructor).
+
+## Future Goals (TODOs)
+1. Make it quicker (parallelism, better activation function)
+2. Make it flexible (change # of nodes, layers, etc.)
+3. Remove Eigen
+
+### Sources
+3Blue1Brown's lecture series:
 https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
 
-I'm using the Eigen library for matrix operations, see here: eigen.tuxfamily.org
-
+Eigen:
+https://eigen.tuxfamily.org/index.php?title=Main_Page
