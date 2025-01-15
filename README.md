@@ -1,4 +1,4 @@
-[Link to website article](https://davisrippon.com/posts/making-a-libraryless-MLP/)
+[Link to website article](https://davisrippon.com/posts/making-a-libraryless-mlp/)
 
 # DL-Number-Recognition
 A Multi-Layer Perceptron project written in c++ without any AI/ML libraries!
