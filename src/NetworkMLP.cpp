@@ -1,6 +1,7 @@
 #include "NetworkMLP.h"
 #include "functions.h"
 #include <iostream>
+#include <fstream>
  
 NetworkMLP::NetworkMLP() {
 	weightsL1 = Eigen::Vector<float, 12544>::Random();
@@ -146,23 +147,36 @@ ForwardPassContainer NetworkMLP::forward_pass(Eigen::Vector<float, 784> image) {
 			Z3[i] = value;
 		}
 
-	/*for (int i = 0; i < 10; ++i) {*/
-	/*	std::cout << Z3[i] << " " << Z2[i] << " " << Z1[i] << " " << std::endl;*/
-	/*}*/
-
 	return	{Z1, Z2, Z3};
+}
+
+void NetworkMLP::write_model(std::string name) {
+	std::ofstream Model("/home/davis/Desktop/Personal/code/DL-Number-Recognition/data/models/" + name);
+
+	Model << "weightsL1\n";
+	Model << weightsL1;
+	Model << "\nbiasesL1\n";
+	Model << biasesL1;
+	Model << "\nweightsL2\n";
+	Model << weightsL2;
+	Model << "\nbiasesL2\n";
+	Model << biasesL2;
+	Model << "\nweightsL3\n";
+	Model << weightsL3;
+	Model << "\nbiasesL3\n";
+	Model << biasesL3;
+
+	Model.close();
 }
 
 int NetworkMLP::predict(Eigen::Vector<float, 784> image) {
 	ForwardPassContainer layers = forward_pass(image);
 	Eigen::Vector<float, 10> output = layers.Z3;
 
-	int curMax;
+	int curMax = 0;
 	for (int i = 0; i < 10; ++i) {
 		if (output[i] > output[curMax]) curMax = i;
 	}
-
-	std::cout << output << std::endl;
 
 	return curMax;
 

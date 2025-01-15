@@ -10,7 +10,15 @@ class NetworkMLP {
 	public:
 		NetworkMLP();
 		ForwardPassContainer forward_pass(Eigen::Vector<float, 784> input);
-		void back_prop(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput, float learningRate, float tolerance, float differenceThreshhold, int epochs=50);
+		void back_prop(
+				std::vector<Eigen::Vector<float, 784>> input,
+				std::vector<int> expectedOutput,
+				float learningRate,
+				float tolerance,
+				float differenceThreshhold,
+				int epochs=50
+				);
+		void write_model(std::string);
 		uint8_t test_accuracy(std::vector<Eigen::Vector<float, 784>> input, std::vector<int> expectedOutput);
 		int predict(Eigen::Vector<float, 784> image);
 	private:

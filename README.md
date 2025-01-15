@@ -1,3 +1,5 @@
+[Link to website article](davisrippon.com/posts/making-a-libraryless-MLP/)
+
 # DL-Number-Recognition
 A Multi-Layer Perceptron project written in c++ without any AI/ML libraries!
 
@@ -14,9 +16,8 @@ Download:
 git clone git@github.com:Davis-Rippon/DL-Number-Recognition.git
 ```
 
-Build:
+Build (make sure you're in "DL-Number-Recognition"!):
 ```bash
-cd DL-Number-Recognition
 make
 ```
 

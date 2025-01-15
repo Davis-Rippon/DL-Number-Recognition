@@ -40,5 +40,16 @@ int main() {
 		std::cout << "Model Prediction: " << networkMLP.predict(testImages[i]) << std::endl;
 	}
 
+	char response;
+	std::cout << "Write Model? (y or n) " << std::endl;
+	std::cin >> response;
+
+	if (response == 'y') {
+		std::string name;
+		std::cout << "What do you want to name this model?" << std::endl;
+		std::cin >> name;
+		networkMLP.write_model(name + ".txt");
+	}
+
 	return 0;
 }
